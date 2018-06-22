@@ -1,0 +1,635 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>SMP Sortable Table jQuery Plugin</title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="smpSortableTable.js"></script>
+
+    <link rel="stylesheet" href="smpSortableTable.css">
+
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th {
+            text-align: left;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        const people = {
+            data: [{
+                "fname": "Tanner",
+                "lname": "Conner",
+                "age": 93,
+                "bdate": {"text": "04\/09\/1925", "sort": -1411540671}
+            }, {
+                "fname": "Karin",
+                "lname": "Book",
+                "age": 33,
+                "bdate": {"text": "01\/21\/1985", "sort": 475176129}
+            }, {
+                "fname": "Kara",
+                "lname": "Brixey",
+                "age": 95,
+                "bdate": {"text": "05\/24\/1923", "sort": -1470814671}
+            }, {
+                "fname": "Tracee",
+                "lname": "Perret",
+                "age": 69,
+                "bdate": {"text": "11\/23\/1948", "sort": -665995071}
+            }, {
+                "fname": "Joette",
+                "lname": "Steinert",
+                "age": 51,
+                "bdate": {"text": "12\/31\/1966", "sort": -94718271}
+            }, {
+                "fname": "Herma",
+                "lname": "Barra",
+                "age": 14,
+                "bdate": {"text": "07\/30\/2003", "sort": 1059582129}
+            }, {
+                "fname": "Alpha",
+                "lname": "Henry",
+                "age": 35,
+                "bdate": {"text": "10\/16\/1982", "sort": 403633329}
+            }, {
+                "fname": "Coleen",
+                "lname": "Smail",
+                "age": 44,
+                "bdate": {"text": "10\/09\/1973", "sort": 119031729}
+            }, {
+                "fname": "Drucilla",
+                "lname": "Abel",
+                "age": 37,
+                "bdate": {"text": "08\/25\/1980", "sort": 336068529}
+            }, {
+                "fname": "Mirian",
+                "lname": "Zeitz",
+                "age": 88,
+                "bdate": {"text": "04\/20\/1930", "sort": -1252823871}
+            }, {
+                "fname": "Adah",
+                "lname": "Weight",
+                "age": 89,
+                "bdate": {"text": "05\/11\/1929", "sort": -1282549071}
+            }, {
+                "fname": "Lucio",
+                "lname": "Palmisano",
+                "age": 50,
+                "bdate": {"text": "02\/28\/1968", "sort": -58084671}
+            }, {
+                "fname": "Harland",
+                "lname": "Burnam",
+                "age": 30,
+                "bdate": {"text": "12\/09\/1987", "sort": 566068929}
+            }, {
+                "fname": "Georgetta",
+                "lname": "Veiga",
+                "age": 70,
+                "bdate": {"text": "07\/21\/1947", "sort": -708421071}
+            }, {
+                "fname": "Andre",
+                "lname": "Heal",
+                "age": 56,
+                "bdate": {"text": "01\/13\/1962", "sort": -251361471}
+            }, {
+                "fname": "Mabelle",
+                "lname": "Condie",
+                "age": 19,
+                "bdate": {"text": "08\/10\/1998", "sort": 902766129}
+            }, {
+                "fname": "Cuc",
+                "lname": "Varney",
+                "age": 51,
+                "bdate": {"text": "01\/31\/1967", "sort": -92039871}
+            }, {
+                "fname": "Edith",
+                "lname": "Daulton",
+                "age": 61,
+                "bdate": {"text": "09\/10\/1956", "sort": -419931471}
+            }, {
+                "fname": "Angele",
+                "lname": "Ledonne",
+                "age": 38,
+                "bdate": {"text": "09\/03\/1979", "sort": 305223729}
+            }, {
+                "fname": "Melony",
+                "lname": "Stender",
+                "age": 87,
+                "bdate": {"text": "01\/22\/1931", "sort": -1228891071}
+            }, {
+                "fname": "Tosha",
+                "lname": "Sasaki",
+                "age": 31,
+                "bdate": {"text": "03\/14\/1987", "sort": 542740929}
+            }, {
+                "fname": "Darcy",
+                "lname": "Ikard",
+                "age": 97,
+                "bdate": {"text": "02\/01\/1921", "sort": -1543559871}
+            }, {
+                "fname": "Oren",
+                "lname": "Jone",
+                "age": 36,
+                "bdate": {"text": "04\/17\/1982", "sort": 387912129}
+            }, {
+                "fname": "Bill",
+                "lname": "Dines",
+                "age": 20,
+                "bdate": {"text": "11\/25\/1997", "sort": 880478529}
+            }, {
+                "fname": "Lovie",
+                "lname": "Wengerd",
+                "age": 19,
+                "bdate": {"text": "01\/02\/1999", "sort": 915297729}
+            }, {
+                "fname": "Bertram",
+                "lname": "Bland",
+                "age": 87,
+                "bdate": {"text": "04\/08\/1931", "sort": -1222324671}
+            }, {
+                "fname": "Kermit",
+                "lname": "Fravel",
+                "age": 17,
+                "bdate": {"text": "06\/04\/2001", "sort": 991671729}
+            }, {
+                "fname": "Camellia",
+                "lname": "Ross",
+                "age": 69,
+                "bdate": {"text": "12\/04\/1948", "sort": -665044671}
+            }, {
+                "fname": "Gilma",
+                "lname": "Burruel",
+                "age": 33,
+                "bdate": {"text": "08\/23\/1984", "sort": 462126129}
+            }, {
+                "fname": "Maybelle",
+                "lname": "Shimek",
+                "age": 80,
+                "bdate": {"text": "12\/22\/1937", "sort": -1010644671}
+            }, {
+                "fname": "Everett",
+                "lname": "Newhouse",
+                "age": 44,
+                "bdate": {"text": "05\/18\/1974", "sort": 138126129}
+            }, {
+                "fname": "Darron",
+                "lname": "Redding",
+                "age": 49,
+                "bdate": {"text": "07\/02\/1968", "sort": -47288271}
+            }, {
+                "fname": "Cindie",
+                "lname": "Braverman",
+                "age": 66,
+                "bdate": {"text": "03\/11\/1952", "sort": -561969471}
+            }, {
+                "fname": "Ezequiel",
+                "lname": "Mukai",
+                "age": 70,
+                "bdate": {"text": "08\/26\/1947", "sort": -705310671}
+            }, {
+                "fname": "Toi",
+                "lname": "Shiver",
+                "age": 26,
+                "bdate": {"text": "11\/27\/1991", "sort": 691262529}
+            }, {
+                "fname": "Karrie",
+                "lname": "Kloss",
+                "age": 88,
+                "bdate": {"text": "12\/22\/1929", "sort": -1263105471}
+            }, {
+                "fname": "Suzie",
+                "lname": "Sartor",
+                "age": 73,
+                "bdate": {"text": "10\/18\/1944", "sort": -795339471}
+            }, {
+                "fname": "Wilbur",
+                "lname": "Brashear",
+                "age": 92,
+                "bdate": {"text": "05\/16\/1926", "sort": -1376811471}
+            }, {
+                "fname": "Clotilde",
+                "lname": "Eliason",
+                "age": 95,
+                "bdate": {"text": "04\/24\/1923", "sort": -1473403071}
+            }, {
+                "fname": "Jennine",
+                "lname": "Digirolamo",
+                "age": 93,
+                "bdate": {"text": "03\/04\/1925", "sort": -1414651071}
+            }, {
+                "fname": "Tamera",
+                "lname": "Null",
+                "age": 53,
+                "bdate": {"text": "05\/29\/1965", "sort": -144920271}
+            }, {
+                "fname": "Theressa",
+                "lname": "Tea",
+                "age": 25,
+                "bdate": {"text": "12\/31\/1992", "sort": 725822529}
+            }, {
+                "fname": "Cherryl",
+                "lname": "Sweitzer",
+                "age": 13,
+                "bdate": {"text": "11\/14\/2004", "sort": 1100452929}
+            }, {
+                "fname": "Nakisha",
+                "lname": "Reppert",
+                "age": 95,
+                "bdate": {"text": "04\/02\/1923", "sort": -1475303871}
+            }, {
+                "fname": "Laurence",
+                "lname": "Pipkins",
+                "age": 25,
+                "bdate": {"text": "09\/08\/1992", "sort": 715969329}
+            }, {
+                "fname": "Sherwood",
+                "lname": "Mcdowell",
+                "age": 32,
+                "bdate": {"text": "12\/16\/1985", "sort": 503601729}
+            }, {
+                "fname": "Yvone",
+                "lname": "Gullett",
+                "age": 51,
+                "bdate": {"text": "06\/24\/1966", "sort": -111137871}
+            }, {
+                "fname": "Jenni",
+                "lname": "Silva",
+                "age": 74,
+                "bdate": {"text": "10\/30\/1943", "sort": -825925071}
+            }, {
+                "fname": "Del",
+                "lname": "Febus",
+                "age": 42,
+                "bdate": {"text": "04\/18\/1976", "sort": 198696129}
+            }, {
+                "fname": "Leisa",
+                "lname": "Ferber",
+                "age": 50,
+                "bdate": {"text": "07\/02\/1967", "sort": -78910671}
+            }]
+        };
+
+        $(document).ready(function () {
+            let $inp_rows = $('#inp_rows') ;
+            let params = window.location.search.substring(1).split('&') ;
+            for(let key in params) {
+                let tmp = params[key].split('=') ;
+                params[tmp[0]] = tmp[1] ;
+            }
+            const initRows = params.rows ? parseInt(params.rows) : 10 ;
+            $inp_rows.val(initRows) ;
+
+            if(params.data === 'ds') {
+                $('#people-table').smpSortableTable(people.data, initRows);
+            } else {
+                $('#people-table').smpSortableTable(false, initRows);
+            }
+
+            $('#btn_ds').click(function(){
+                let rows = !!$inp_rows.val() ? $inp_rows.val() : 10 ;
+                window.location.search = '?data=ds&rows=' + rows ;
+            }) ;
+
+            $('#btn_td').click(function(){
+                let rows = !!$inp_rows.val() ? $inp_rows.val() : 10 ;
+                window.location.search = '?data=td&rows=' + rows ;
+            }) ;
+        });
+    </script>
+
+</head>
+<body>
+
+<table id="people-table">
+    <thead>
+    <tr>
+        <th id="fname">First Name</th>
+        <th id="lname">Last Name</th>
+        <th id="age">Age</th>
+        <th id="bdate">Birthday</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Tatyana</td>
+        <td>Thrash</td>
+        <td>58</td>
+        <td>1960-02-15</td>
+    </tr>
+    <tr>
+        <td>Keven</td>
+        <td>Keniston</td>
+        <td>14</td>
+        <td>2003-12-23</td>
+    </tr>
+    <tr>
+        <td>Faviola</td>
+        <td>Frankum</td>
+        <td>90</td>
+        <td>1927-09-26</td>
+    </tr>
+    <tr>
+        <td>Suzan</td>
+        <td>Sweetman</td>
+        <td>46</td>
+        <td>1971-07-10</td>
+    </tr>
+    <tr>
+        <td>Demetrius</td>
+        <td>Derosia</td>
+        <td>25</td>
+        <td>1992-12-13</td>
+    </tr>
+    <tr>
+        <td>Leo</td>
+        <td>Lupo</td>
+        <td>58</td>
+        <td>1960-05-21</td>
+    </tr>
+    <tr>
+        <td>Merlene</td>
+        <td>Mach</td>
+        <td>98</td>
+        <td>1919-08-02</td>
+    </tr>
+    <tr>
+        <td>Nikki</td>
+        <td>Nath</td>
+        <td>71</td>
+        <td>1946-11-30</td>
+    </tr>
+    <tr>
+        <td>Almeta</td>
+        <td>Acosta</td>
+        <td>23</td>
+        <td>1994-07-09</td>
+    </tr>
+    <tr>
+        <td>Ferne</td>
+        <td>Fizer</td>
+        <td>70</td>
+        <td>1948-05-18</td>
+    </tr>
+    <tr>
+        <td>Jennie</td>
+        <td>Jamieson</td>
+        <td>28</td>
+        <td>1990-04-11</td>
+    </tr>
+    <tr>
+        <td>Isa</td>
+        <td>Isakson</td>
+        <td>96</td>
+        <td>1921-10-29</td>
+    </tr>
+    <tr>
+        <td>Lakeesha</td>
+        <td>Lovell</td>
+        <td>93</td>
+        <td>1924-07-31</td>
+    </tr>
+    <tr>
+        <td>Nyla</td>
+        <td>Niemiec</td>
+        <td>21</td>
+        <td>1996-09-15</td>
+    </tr>
+    <tr>
+        <td>Sheron</td>
+        <td>Schmitmeyer</td>
+        <td>50</td>
+        <td>1967-08-22</td>
+    </tr>
+    <tr>
+        <td>Elfrieda</td>
+        <td>Eguia</td>
+        <td>72</td>
+        <td>1945-11-20</td>
+    </tr>
+    <tr>
+        <td>Stefany</td>
+        <td>Sheffey</td>
+        <td>62</td>
+        <td>1955-11-30</td>
+    </tr>
+    <tr>
+        <td>Sudie</td>
+        <td>Suiter</td>
+        <td>47</td>
+        <td>1970-09-25</td>
+    </tr>
+    <tr>
+        <td>Tristan</td>
+        <td>Townsley</td>
+        <td>24</td>
+        <td>1994-05-08</td>
+    </tr>
+    <tr>
+        <td>Keitha</td>
+        <td>Kellen</td>
+        <td>40</td>
+        <td>1977-06-09</td>
+    </tr>
+    <tr>
+        <td>Virgil</td>
+        <td>Victorino</td>
+        <td>29</td>
+        <td>1988-06-23</td>
+    </tr>
+    <tr>
+        <td>Marvin</td>
+        <td>Mcfate</td>
+        <td>43</td>
+        <td>1974-06-20</td>
+    </tr>
+    <tr>
+        <td>Trang</td>
+        <td>Tony</td>
+        <td>36</td>
+        <td>1982-06-04</td>
+    </tr>
+    <tr>
+        <td>Lecia</td>
+        <td>Luong</td>
+        <td>51</td>
+        <td>1966-07-22</td>
+    </tr>
+    <tr>
+        <td>Lon</td>
+        <td>Leung</td>
+        <td>65</td>
+        <td>1953-02-14</td>
+    </tr>
+    <tr>
+        <td>Adah</td>
+        <td>Abell</td>
+        <td>97</td>
+        <td>1921-05-22</td>
+    </tr>
+    <tr>
+        <td>Estefana</td>
+        <td>Ecklund</td>
+        <td>94</td>
+        <td>1924-02-09</td>
+    </tr>
+    <tr>
+        <td>Simonne</td>
+        <td>Strauch</td>
+        <td>77</td>
+        <td>1940-10-21</td>
+    </tr>
+    <tr>
+        <td>Osvaldo</td>
+        <td>Okane</td>
+        <td>47</td>
+        <td>1970-07-13</td>
+    </tr>
+    <tr>
+        <td>Aurora</td>
+        <td>Archibald</td>
+        <td>23</td>
+        <td>1994-12-24</td>
+    </tr>
+    <tr>
+        <td>Carina</td>
+        <td>Corby</td>
+        <td>60</td>
+        <td>1957-10-21</td>
+    </tr>
+    <tr>
+        <td>Garth</td>
+        <td>Garr</td>
+        <td>57</td>
+        <td>1960-06-29</td>
+    </tr>
+    <tr>
+        <td>Jayna</td>
+        <td>Jacobs</td>
+        <td>79</td>
+        <td>1938-08-12</td>
+    </tr>
+    <tr>
+        <td>Rhoda</td>
+        <td>Rountree</td>
+        <td>26</td>
+        <td>1992-01-29</td>
+    </tr>
+    <tr>
+        <td>Jacquelin</td>
+        <td>Jaco</td>
+        <td>42</td>
+        <td>1976-05-15</td>
+    </tr>
+    <tr>
+        <td>Deangelo</td>
+        <td>Dressel</td>
+        <td>41</td>
+        <td>1977-04-03</td>
+    </tr>
+    <tr>
+        <td>Man</td>
+        <td>Manalo</td>
+        <td>87</td>
+        <td>1930-08-21</td>
+    </tr>
+    <tr>
+        <td>Violet</td>
+        <td>Vanzant</td>
+        <td>78</td>
+        <td>1940-05-16</td>
+    </tr>
+    <tr>
+        <td>Jc</td>
+        <td>Joesph</td>
+        <td>43</td>
+        <td>1975-02-20</td>
+    </tr>
+    <tr>
+        <td>Thomasine</td>
+        <td>Tripodi</td>
+        <td>79</td>
+        <td>1938-09-01</td>
+    </tr>
+    <tr>
+        <td>Crissy</td>
+        <td>Collins</td>
+        <td>51</td>
+        <td>1966-06-12</td>
+    </tr>
+    <tr>
+        <td>Jeffry</td>
+        <td>Jolly</td>
+        <td>75</td>
+        <td>1942-06-22</td>
+    </tr>
+    <tr>
+        <td>Donnetta</td>
+        <td>Ducharme</td>
+        <td>99</td>
+        <td>1919-05-10</td>
+    </tr>
+    <tr>
+        <td>Kayleen</td>
+        <td>Keehn</td>
+        <td>76</td>
+        <td>1941-07-12</td>
+    </tr>
+    <tr>
+        <td>Shirleen</td>
+        <td>Sanford</td>
+        <td>39</td>
+        <td>1978-11-22</td>
+    </tr>
+    <tr>
+        <td>Clora</td>
+        <td>Curlin</td>
+        <td>53</td>
+        <td>1965-04-20</td>
+    </tr>
+    <tr>
+        <td>Cecille</td>
+        <td>Creed</td>
+        <td>65</td>
+        <td>1953-01-24</td>
+    </tr>
+    <tr>
+        <td>Normand</td>
+        <td>Nolen</td>
+        <td>86</td>
+        <td>1932-01-30</td>
+    </tr>
+    <tr>
+        <td>Horacio</td>
+        <td>Hazelrigg</td>
+        <td>71</td>
+        <td>1946-07-01</td>
+    </tr>
+    <tr>
+        <td>Eloisa</td>
+        <td>Eisenberg</td>
+        <td>19</td>
+        <td>1998-12-15</td>
+    </tr>
+    </tbody>
+</table>
+
+<br/>
+<label for="inp_rows">Number of Rows</label>
+<input id="inp_rows" type="number" value="15"/>
+<button id="btn_ds">Render Using Data Structure</button>
+<button id="btn_td">Render Using Table Data</button>
+
+</body>
+</html>
