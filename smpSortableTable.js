@@ -65,7 +65,7 @@
         data = !data ? generateData($table) : data ;
         $table.addClass('smpSortableTable--processed') ;
         $table.find('tbody').html(renderTable(0, data.length, max, data));
-        $table.find('th').addClass('smpSortableTable--sortable ' + tableName + '--sortable');
+        $table.find('th:not(.smp-not-sortable)').addClass('smpSortableTable--sortable ' + tableName + '--sortable');
         $table.after(
             '<div class="smpSortableTable--nav" id="' + tableName + '--nav">' +
             '<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' + tableName + '--prev">&laquo; Previous</a>' +
