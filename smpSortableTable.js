@@ -27,9 +27,11 @@
             for (var i = start; i < Math.min(end, max); i++) {
                 returnHTML += '<tr>';
                 for (var key in data[i]) {
-                    if (typeof data[i][key] !== 'object')
-                        returnHTML += '<td>' + (data[i][key] ? data[i][key] : 'N/A') + '</td>';
-                    else returnHTML += '<td>' + (data[i][key].text ? data[i][key].text : 'N/A') + '</td>';
+                    if(data[i].hasOwnProperty(key)) {
+                        if (typeof data[i][key] !== 'object')
+                            returnHTML += '<td>' + (data[i][key] ? data[i][key] : 'N/A') + '</td>';
+                        else returnHTML += '<td>' + (data[i][key].text ? data[i][key].text : 'N/A') + '</td>';
+                    }
                 }
                 returnHTML += '</tr>';
             }
