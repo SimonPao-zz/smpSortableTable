@@ -37,7 +37,7 @@ smpSortableTable is a simple jQuery table formatting plugin. It allows sorting b
         <tr>
             <th id="fname">First Name</th>
             <th id="lname">Last Name</th>
-            <th id="age">Age</th>
+            <th id="age" class="smp-not-sortable">Age</th>
             <th id="bdate">Birthday</th>
         </tr>
     </thead>
@@ -61,7 +61,7 @@ smpSortableTable is a simple jQuery table formatting plugin. It allows sorting b
         <tr>
             <th id="fname">First Name</th>
             <th id="lname">Last Name</th>
-            <th id="age">Age</th>
+            <th id="age" class="smp-not-sortable">Age</th>
             <th id="bdate">Birthday</th>
         </tr>
     </thead>
