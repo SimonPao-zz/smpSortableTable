@@ -1,5 +1,26 @@
 (function($){
-    $.fn.smpSortableTable = function (data, max) {
+    $.fn.smpSortableTable = function (data, max, lang) {
+
+        // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
+        lang=lang||"en";
+        var local=function(word) {
+          var msg={
+            "en" : {
+                "of" : "Of"
+                , "next": "Next"
+                , "previous": "Previous"
+              }
+              , "es" :{
+                "of" : "De"
+                , "next": "Siguiente"
+                , "previous": "Anterior"
+              }
+          }
+          lang=( typeof msg[lang]==='undefined')?"en":lang;
+          return msg[lang][word];
+        };
+        
+
         var generateData = function($table) {
             var keys = [] ;
             var data = [] ;
@@ -56,7 +77,6 @@
                 }
             }
         };
-
         /* SETUP */
         var $table = $(this);
         var tableName = $table.attr('id');
@@ -68,9 +88,13 @@
         $table.find('th:not(.smp-not-sortable)').addClass('smpSortableTable--sortable ' + tableName + '--sortable');
         $table.after(
             '<div class="smpSortableTable--nav" id="' + tableName + '--nav">' +
-            '<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' + tableName + '--prev">&laquo; Previous</a>' +
+            '<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' + tableName + '--prev">&laquo;'
+            + local("previous")
+            +'</a>' +
             '<span class="smpSortableTable--counter" id="' + tableName + '--counter"></span>' +
-            '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">Next &raquo;</a>' +
+            '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">'
+            + local("next")
+            +' &raquo;</a>' +
             '</div>'
         );
         $.each($table.find('th'), function (i, v) {
@@ -81,7 +105,7 @@
         /* Init counter */
         if (data.length) {
             $('#' + tableName + '--counter').text(
-                '1 - ' + Math.min(data.length, max) + ' of ' + data.length
+                '1 - ' + Math.min(data.length, max) + ' '+local("of").toLowerCase()+' ' + data.length
             );
         } else {
             $('#' + tableName + '--counter').text('Nothing to Display')
@@ -105,7 +129,7 @@
                     );
 
                     $('#' + tableName + '--counter').text(
-                        (start + 1) + ' - ' + Math.min(size, end) + ' of ' + size
+                        (start + 1) + ' - ' + Math.min(size, end) + ' '+local("of").toLowerCase()+' ' + size
                     );
 
                     $('#' + tableName + '--prev').removeClass('smpSortableTable--disabled');
@@ -125,7 +149,7 @@
                     );
 
                     $('#' + tableName + '--counter').text(
-                        (start + 1) + ' - ' + Math.min(size, end) + ' of ' + size
+                        (start + 1) + ' - ' + Math.min(size, end) + ' '+local("of").toLowerCase()+' ' + size
                     );
 
                     $('#' + tableName + '--next').removeClass('smpSortableTable--disabled');
@@ -151,8 +175,7 @@
             if (data.length > max) {
                 $('#' + tableName + '--next').removeClass('smpSortableTable--disabled');
             }
-            $('#' + tableName + '--counter').text('1 - ' + Math.min(data.length, max) + ' of ' + data.length);
+            $('#' + tableName + '--counter').text('1 - ' + Math.min(data.length, max) + ' '+local("of").toLowerCase()+' ' + data.length);
         });
     };
 })(jQuery) ;
-
