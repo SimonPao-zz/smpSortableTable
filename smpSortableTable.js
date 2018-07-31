@@ -12,6 +12,7 @@
                 , "previous"  : "[Previous]"
                 , "first"     : "[First]"
                 , "last"      : "[Last]"
+                , "nothing"   : "Nothing to Display"
               }
               , "es" :{
                 "of"          : "De"
@@ -19,6 +20,7 @@
                 , "previous"  : "[Anterior]"
                 , "first"     : "[Primero]"
                 , "last"      : "[&Uacute;ltimo]"
+                , "nothing"   : "Nada que mostrar"
               }
               , "pt": {
                 "of"          : "Do"
@@ -26,6 +28,7 @@
                 , "previous"  : "[Anterior]"
                 , "first"     : "[Primeiro]"
                 , "last"      : "[&Uacute;ltimo]"
+                , "nothing"   : "Nada a exibir"
               }
               , "symbols": {
                 "of"          : "/"
@@ -33,8 +36,9 @@
                 , "previous"  : "&#9664;"
                 , "first"     : "|&#9664;"
                 , "last"      : "&#9654;|"
+                , "nothing"   : "&#8709;"
               }
-          }
+          } ;
           dict["en-us"]=dict["en-uk"]=dict["en"];
           dict["es-es"]=dict["es"];
           dict["pt-br"]=dict["pt-pt"]=dict["pt"];
@@ -43,8 +47,7 @@
           lang=( typeof dict[lang]==='undefined')?"en":lang;
 
           // If the word is not in our little dictionary
-          var toRet=( typeof dict[lang][word.toLowerCase()]==='undefined')?"unknown":dict[lang][word.toLowerCase()];
-          return toRet;
+          return ( typeof dict[lang][word.toLowerCase()]==='undefined' ) ? "unknown" : dict[lang][word.toLowerCase()] ;
         };
 
 
@@ -139,7 +142,7 @@
                 '1 - ' + Math.min(data.length, max) + ' '+local("of").toLowerCase()+' ' + data.length
             );
         } else {
-            $('#' + tableName + '--counter').text('Nothing to Display')
+            $('#' + tableName + '--counter').text(local('nothing'));
             $('#' + tableName + '--next').addClass('smpSortableTable--disabled');
             $('#' + tableName + '--last').addClass('smpSortableTable--disabled');
             $table.find('th').removeClass('smpSortableTable--sortable');
@@ -257,8 +260,10 @@
             );
             $(this).addClass(direction);
             $('#' + tableName + '--prev').addClass('smpSortableTable--disabled');
+            $('#' + tableName + '--first').addClass('smpSortableTable--disabled');
             if (data.length > max) {
                 $('#' + tableName + '--next').removeClass('smpSortableTable--disabled');
+                $('#' + tableName + '--last').removeClass('smpSortableTable--disabled');
             }
             $('#' + tableName + '--counter').text('1 - ' + Math.min(data.length, max) + ' '+local("of").toLowerCase()+' ' + data.length);
         });

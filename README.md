@@ -26,8 +26,9 @@ smpSortableTable is a simple jQuery table formatting plugin. It allows sorting b
     }] ;
     
     let rows = 10 ;
+    let language = "en" ;
     
-    $('#people-table').smpSortableTable(people, rows);
+    $('#people-table').smpSortableTable(people, rows, language);
 </script>
 
 ...
@@ -50,8 +51,9 @@ smpSortableTable is a simple jQuery table formatting plugin. It allows sorting b
 ```
 <script type="text/javascript">
     let rows = 10 ;
+    let language = "en" ;
     
-    $('#people-table').smpSortableTable(false, rows);
+    $('#people-table').smpSortableTable(false, rows, language);
 </script>
 
 ...

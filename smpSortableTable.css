@@ -28,9 +28,11 @@
 .smpSortableTable--prev,
 .smpSortableTable--first {
     float: left;
+    margin-right: 15px;
 }
 
 .smpSortableTable--next
 ,  .smpSortableTable--last{
     float: right;
+    margin-left: 15px;
 }

@@ -284,28 +284,33 @@
 
         $(document).ready(function () {
             let $inp_rows = $('#inp_rows') ;
+            let $inp_lang = $('#inp_lang') ;
             let params = window.location.search.substring(1).split('&') ;
             for(let key in params) {
                 let tmp = params[key].split('=') ;
                 params[tmp[0]] = tmp[1] ;
             }
             const initRows = params.rows ? parseInt(params.rows) : 10 ;
+            const initLang = params.lang ? params.lang : "en" ;
             $inp_rows.val(initRows) ;
+            $inp_lang.val(initLang) ;
 
             if(params.data === 'ds') {
-                $('#people-table').smpSortableTable(people.data, initRows, "symbols" );
+                $('#people-table').smpSortableTable(people.data, initRows, initLang );
             } else {
-                $('#people-table').smpSortableTable(false, initRows, "es-es");
+                $('#people-table').smpSortableTable(false, initRows, initLang);
             }
 
             $('#btn_ds').click(function(){
                 let rows = !!$inp_rows.val() ? $inp_rows.val() : 10 ;
-                window.location.search = '?data=ds&rows=' + rows ;
+                let lang = !!$inp_lang.val() ? $inp_lang.val() : "en" ;
+                window.location.search = '?data=ds&rows=' + rows + '&lang=' + lang ;
             }) ;
 
             $('#btn_td').click(function(){
                 let rows = !!$inp_rows.val() ? $inp_rows.val() : 10 ;
-                window.location.search = '?data=td&rows=' + rows ;
+                let lang = !!$inp_lang.val() ? $inp_lang.val() : "en" ;
+                window.location.search = '?data=td&rows=' + rows + '&lang=' + lang ;
             }) ;
         });
     </script>
@@ -629,6 +634,13 @@
 <br/>
 <label for="inp_rows">Number of Rows</label>
 <input id="inp_rows" type="number" value="15"/>
+<label for="inp_lang">Select Language</label>
+<select id="inp_lang">
+    <option value="en">English</option>
+    <option value="es">Espa&ntilde;ol</option>
+    <option value="pt">Portugu&ecirc;s</option>
+    <option value="symbols">Symbols</option>
+</select>
 <button id="btn_ds">Render Using Data Structure</button>
 <button id="btn_td">Render Using Table Data</button>
 
