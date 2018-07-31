@@ -3,41 +3,41 @@
       // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
       // If lang is not defined, then lang is en
       lang=lang||"en";
+      lang=lang.toLowerCase();
       var local=function(word) {
           var dict={
             "en" : {
-                "of" : "Of"
-                , "next": "Next"
-                , "previous": "Previous"
-                , "first": "First"
-                , "last": "Last"
+                "of"          : "Of"
+                , "next"      : "[Next]"
+                , "previous"  : "[Previous]"
+                , "first"     : "[First]"
+                , "last"      : "[Last]"
               }
               , "es" :{
-                "of" : "De"
-                , "next": "Siguiente"
-                , "previous": "Anterior"
-                , "first": "Primero"
-                , "last": "&Uacute;ltimo"
+                "of"          : "De"
+                , "next"      : "[Siguiente]"
+                , "previous"  : "[Anterior]"
+                , "first"     : "[Primero]"
+                , "last"      : "[&Uacute;ltimo]"
               }
               , "pt": {
-                "of" : "Do"
-                , "next": "Pr&oacute;ximo"
-                , "previous": "Anterior"
-                , "first": "Primeiro"
-                , "last": "&Uacute;ltimo"
+                "of"          : "Do"
+                , "next"      : "[Pr&oacute;ximo]"
+                , "previous"  : "[Anterior]"
+                , "first"     : "[Primeiro]"
+                , "last"      : "[&Uacute;ltimo]"
               }
               , "symbols": {
-                "of" : "/"
-                , "next": "&#9654;"
-                , "previous": "&#9664;"
-                , "first": "|&#9664;"
-                , "last": "&#9654;|"
+                "of"          : "/"
+                , "next"      : "&#9654;"
+                , "previous"  : "&#9664;"
+                , "first"     : "|&#9664;"
+                , "last"      : "&#9654;|"
               }
           }
-          dict["en-US"]=dict["en"];
-          dict["en-UK"]=dict["en"];
-          dict["es-ES"]=dict["es"];
-          dict["pt-BR"]=dict["pt"];
+          dict["en-us"]=dict["en-uk"]=dict["en"];
+          dict["es-es"]=dict["es"];
+          dict["pt-br"]=dict["pt-pt"]=dict["pt"];
 
           // If lang is defined but not included in dict, then lang is en
           lang=( typeof dict[lang]==='undefined')?"en":lang;
@@ -123,9 +123,9 @@
             +'</a>'
             +'<span class="smpSortableTable--counter" id="' + tableName + '--counter"></span>'
             +'<a class="smpSortableTable--nav-links smpSortableTable--last" id="' + tableName + '--last">'
-            + local("last")
+            + local("last")+'</a>'
             + '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">'
-            + local("next")
+            + local("next")+'</a>'
             +'</div>'
         );
         $.each($table.find('th'), function (i, v) {
@@ -178,6 +178,8 @@
                     var size = data.length;
                     index=Math.trunc(size/max)*max-max;
                     var start = index += max;
+                    // In case size%max=0, start becames greater than size and has to be fixed.
+                    start-=(start<size)?0:max;
                     var end = start + max;
 
                     $table.find('tbody').html(
