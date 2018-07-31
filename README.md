@@ -1,6 +1,13 @@
 # smpSortableTable
 smpSortableTable is a simple jQuery table formatting plugin. It allows sorting by any column and limits the displayed number of rows.
 
+In order to use this function on a table, the table must have an ID, a `<thead>` row, and all `<th>` tags in the `<thead>` must themselves have IDs.
+
+The first parameter passed to `smpSortableTable()` is the data structure containing the table data. If you would like to use the data from the table instead, this parameter may be omitted or `false`. (See examples below.)
+
+The second parameter is the maximum number of rows to display. If omitted, the maximum number of rows will default to **10**.
+
+Localization may be set using an optional third parameter. Currently, English (`"en"`), Spanish (`"es"`), Portuguese (`"pt"`), and Symbols (`"symbols"`) are supported. (Thanks [V&iacute;ctor](https://github.com/vrivas))
 ## Using a Data Structure
 
 ```
