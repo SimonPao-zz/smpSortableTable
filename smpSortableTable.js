@@ -1,25 +1,52 @@
 (function($){
     $.fn.smpSortableTable = function (data, max, lang) {
-
-        // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
-        lang=lang||"en";
-        var local=function(word) {
-          var msg={
+      // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
+      // If lang is not defined, then lang is en
+      lang=lang||"en";
+      var local=function(word) {
+          var dict={
             "en" : {
                 "of" : "Of"
                 , "next": "Next"
                 , "previous": "Previous"
+                , "first": "First"
+                , "last": "Last"
               }
               , "es" :{
                 "of" : "De"
                 , "next": "Siguiente"
                 , "previous": "Anterior"
+                , "first": "Primero"
+                , "last": "&Uacute;ltimo"
+              }
+              , "pt": {
+                "of" : "Do"
+                , "next": "Pr&oacute;ximo"
+                , "previous": "Anterior"
+                , "first": "Primeiro"
+                , "last": "&Uacute;ltimo"
+              }
+              , "symbols": {
+                "of" : "/"
+                , "next": "&#9654;"
+                , "previous": "&#9664;"
+                , "first": "|&#9664;"
+                , "last": "&#9654;|"
               }
           }
-          lang=( typeof msg[lang]==='undefined')?"en":lang;
-          return msg[lang][word];
+          dict["en-US"]=dict["en"];
+          dict["en-UK"]=dict["en"];
+          dict["es-ES"]=dict["es"];
+          dict["pt-BR"]=dict["pt"];
+
+          // If lang is defined but not included in dict, then lang is en
+          lang=( typeof dict[lang]==='undefined')?"en":lang;
+
+          // If the word is not in our little dictionary
+          var toRet=( typeof dict[lang][word.toLowerCase()]==='undefined')?"unknown":dict[lang][word.toLowerCase()];
+          return toRet;
         };
-        
+
 
         var generateData = function($table) {
             var keys = [] ;
@@ -87,15 +114,19 @@
         $table.find('tbody').html(renderTable(0, data.length, max, data));
         $table.find('th:not(.smp-not-sortable)').addClass('smpSortableTable--sortable ' + tableName + '--sortable');
         $table.after(
-            '<div class="smpSortableTable--nav" id="' + tableName + '--nav">' +
-            '<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' + tableName + '--prev">&laquo;'
+            '<div class="smpSortableTable--nav" id="' + tableName + '--nav">'
+            +'<a class="smpSortableTable--nav-links smpSortableTable--first smpSortableTable--disabled" id="' + tableName + '--first">'
+            + local("first")
+            +'</a>'
+            +'<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' + tableName + '--prev">'
             + local("previous")
-            +'</a>' +
-            '<span class="smpSortableTable--counter" id="' + tableName + '--counter"></span>' +
-            '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">'
+            +'</a>'
+            +'<span class="smpSortableTable--counter" id="' + tableName + '--counter"></span>'
+            +'<a class="smpSortableTable--nav-links smpSortableTable--last" id="' + tableName + '--last">'
+            + local("last")
+            + '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">'
             + local("next")
-            +' &raquo;</a>' +
-            '</div>'
+            +'</div>'
         );
         $.each($table.find('th'), function (i, v) {
             var id = $(v).attr('id');
@@ -110,10 +141,12 @@
         } else {
             $('#' + tableName + '--counter').text('Nothing to Display')
             $('#' + tableName + '--next').addClass('smpSortableTable--disabled');
+            $('#' + tableName + '--last').addClass('smpSortableTable--disabled');
             $table.find('th').removeClass('smpSortableTable--sortable');
         }
         if (data.length <= max) {
             $('#' + tableName + '--next').addClass('smpSortableTable--disabled');
+            $('#' + tableName + '--last').addClass('smpSortableTable--disabled');
         }
 
         /* Init next/prev */
@@ -133,8 +166,33 @@
                     );
 
                     $('#' + tableName + '--prev').removeClass('smpSortableTable--disabled');
+                    $('#' + tableName + '--first').removeClass('smpSortableTable--disabled');
                     if (end >= size) {
-                        $('#' + tableName + '--next').addClass('smpSortableTable--disabled');
+                      $('#' + tableName + '--next').addClass('smpSortableTable--disabled');
+                      $('#' + tableName + '--last').addClass('smpSortableTable--disabled');
+                    }
+                }
+            });
+            $('#' + tableName + '--last').click(function () {
+                if (!$(this).hasClass('smpSortableTable--disabled')) {
+                    var size = data.length;
+                    index=Math.trunc(size/max)*max-max;
+                    var start = index += max;
+                    var end = start + max;
+
+                    $table.find('tbody').html(
+                        renderTable(start, size, end, data)
+                    );
+
+                    $('#' + tableName + '--counter').text(
+                        (start + 1) + ' - ' + Math.min(size, end) + ' '+local("of").toLowerCase()+' ' + size
+                    );
+
+                    $('#' + tableName + '--prev').removeClass('smpSortableTable--disabled');
+                    $('#' + tableName + '--first').removeClass('smpSortableTable--disabled');
+                    if (end >= size) {
+                      $('#' + tableName + '--next').addClass('smpSortableTable--disabled');
+                      $('#' + tableName + '--last').addClass('smpSortableTable--disabled');
                     }
                 }
             });
@@ -153,8 +211,33 @@
                     );
 
                     $('#' + tableName + '--next').removeClass('smpSortableTable--disabled');
+                    $('#' + tableName + '--last').removeClass('smpSortableTable--disabled');
                     if (!start) {
-                        $('#' + tableName + '--prev').addClass('smpSortableTable--disabled');
+                      $('#' + tableName + '--prev').addClass('smpSortableTable--disabled');
+                      $('#' + tableName + '--first').addClass('smpSortableTable--disabled');
+                    }
+                }
+            });
+            $('#' + tableName + '--first').click(function () {
+                if (!$(this).hasClass('smpSortableTable--disabled')) {
+                    index=max;
+                    var start = index -= max;
+                    var end = start + max;
+                    var size = data.length;
+
+                    $table.find('tbody').html(
+                        renderTable(start, size, end, data)
+                    );
+
+                    $('#' + tableName + '--counter').text(
+                        (start + 1) + ' - ' + Math.min(size, end) + ' '+local("of").toLowerCase()+' ' + size
+                    );
+
+                    $('#' + tableName + '--next').removeClass('smpSortableTable--disabled');
+                    $('#' + tableName + '--last').removeClass('smpSortableTable--disabled');
+                    if (!start) {
+                      $('#' + tableName + '--prev').addClass('smpSortableTable--disabled');
+                      $('#' + tableName + '--first').addClass('smpSortableTable--disabled');
                     }
                 }
             });

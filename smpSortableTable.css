@@ -25,10 +25,12 @@
     color: lightgrey;
 }
 
-.smpSortableTable--prev {
+.smpSortableTable--prev,
+.smpSortableTable--first {
     float: left;
 }
 
-.smpSortableTable--next {
+.smpSortableTable--next
+,  .smpSortableTable--last{
     float: right;
 }
