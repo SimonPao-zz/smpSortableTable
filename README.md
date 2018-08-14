@@ -8,6 +8,8 @@ The first parameter passed to `smpSortableTable()` is the data structure contain
 The second parameter is the maximum number of rows to display. If omitted, the maximum number of rows will default to **10**.
 
 Localization may be set using an optional third parameter. Currently, English (`"en"`), Spanish (`"es"`), Portuguese (`"pt"`), and Symbols (`"symbols"`) are supported. (Thanks [V&iacute;ctor](https://github.com/vrivas))
+
+The table is responsive for screens narrower than 768px. At this width, table cells will collapse down onto individual lines, prefixed by the column header text. Column headers will display as buttons at the top of the table.
 ## Using a Data Structure
 
 ```
