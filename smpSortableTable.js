@@ -2,53 +2,53 @@
     $.fn.smpSortableTable = function (data, max, lang) {
       // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
       // If lang is not defined, then lang is en
-      lang=lang||"en";
-      lang=lang.toLowerCase();
-      var local=function(word) {
-          var dict={
-            "en" : {
-                "of"          : "Of"
-                , "next"      : "[Next]"
-                , "previous"  : "[Previous]"
-                , "first"     : "[First]"
-                , "last"      : "[Last]"
-                , "nothing"   : "Nothing to Display"
+      lang = lang || "en" ;
+      lang = lang.toLowerCase() ;
+      var local = function(word) {
+          var dict = {
+              "en": {
+                  "of": "Of",
+                  "next": "Next",
+                  "previous": "Previous",
+                  "first": "First",
+                  "last": "Last",
+                  "nothing": "Nothing to Display"
+              },
+              "es": {
+                  "of": "De",
+                  "next": "Siguiente",
+                  "previous": "Anterior",
+                  "first": "Primero",
+                  "last": "&Uacute;ltimo",
+                  "nothing": "Nada que mostrar"
+              },
+              "pt": {
+                  "of": "Do",
+                  "next": "Pr&oacute;ximo",
+                  "previous": "Anterior",
+                  "first": "Primeiro",
+                  "last": "&Uacute;ltimo",
+                  "nothing": "Nada a exibir"
+              },
+              "symbols": {
+                  "of": "/",
+                  "next": "&#9654;",
+                  "previous": "&#9664;",
+                  "first": "|&#9664;",
+                  "last": "&#9654;|",
+                  "nothing": "&#8709;"
               }
-              , "es" :{
-                "of"          : "De"
-                , "next"      : "[Siguiente]"
-                , "previous"  : "[Anterior]"
-                , "first"     : "[Primero]"
-                , "last"      : "[&Uacute;ltimo]"
-                , "nothing"   : "Nada que mostrar"
-              }
-              , "pt": {
-                "of"          : "Do"
-                , "next"      : "[Pr&oacute;ximo]"
-                , "previous"  : "[Anterior]"
-                , "first"     : "[Primeiro]"
-                , "last"      : "[&Uacute;ltimo]"
-                , "nothing"   : "Nada a exibir"
-              }
-              , "symbols": {
-                "of"          : "/"
-                , "next"      : "&#9654;"
-                , "previous"  : "&#9664;"
-                , "first"     : "|&#9664;"
-                , "last"      : "&#9654;|"
-                , "nothing"   : "&#8709;"
-              }
-          } ;
-          dict["en-us"]=dict["en-uk"]=dict["en"];
-          dict["es-es"]=dict["es"];
-          dict["pt-br"]=dict["pt-pt"]=dict["pt"];
+          };
+          dict["en-us"] = dict["en-uk"] = dict["en"] ;
+          dict["es-es"] = dict["es"] ;
+          dict["pt-br"] = dict["pt-pt"] = dict["pt"] ;
 
           // If lang is defined but not included in dict, then lang is en
-          lang=( typeof dict[lang]==='undefined')?"en":lang;
+          lang=( typeof dict[lang] === 'undefined' ) ? "en" : lang ;
 
           // If the word is not in our little dictionary
-          return ( typeof dict[lang][word.toLowerCase()]==='undefined' ) ? "unknown" : dict[lang][word.toLowerCase()] ;
-        };
+          return ( typeof dict[lang][word.toLowerCase()] === 'undefined' ) ? "unknown" : dict[lang][word.toLowerCase()] ;
+        } ;
 
 
         var generateData = function($table) {
@@ -73,15 +73,16 @@
         };
 
 
-        var renderTable = function (start, end, max, data) {
+        var renderTable = function (start, end, max, data, tableName) {
             var returnHTML = '';
             for (var i = start; i < Math.min(end, max); i++) {
                 returnHTML += '<tr>';
                 for (var key in data[i]) {
                     if(data[i].hasOwnProperty(key)) {
+                        var colText = $('#' + tableName + '_' + key).text() ;
                         if (typeof data[i][key] !== 'object')
-                            returnHTML += '<td>' + (data[i][key] ? data[i][key] : 'N/A') + '</td>';
-                        else returnHTML += '<td>' + (data[i][key].text ? data[i][key].text : 'N/A') + '</td>';
+                            returnHTML += '<td data-smp-content="' + colText + '">' + (data[i][key] ? data[i][key] : 'N/A') + '</td>';
+                        else returnHTML += '<td data-smp-content="' + colText + '">' + (data[i][key].text ? data[i][key].text : 'N/A') + '</td>';
                     }
                 }
                 returnHTML += '</tr>';
@@ -111,10 +112,10 @@
         var $table = $(this);
         var tableName = $table.attr('id');
         var index = 0;
-        max = max < 1 ? 10 : max ;
+        max = max < 1 ? 10 : (max || 10) ;
         data = !data ? generateData($table) : data ;
         $table.addClass('smpSortableTable--processed') ;
-        $table.find('tbody').html(renderTable(0, data.length, max, data));
+        $table.find('tbody').html(renderTable(0, data.length, max, data, tableName));
         $table.find('th:not(.smp-not-sortable)').addClass('smpSortableTable--sortable ' + tableName + '--sortable');
         $table.after(
             '<div class="smpSortableTable--nav" id="' + tableName + '--nav">'
@@ -134,6 +135,7 @@
         $.each($table.find('th'), function (i, v) {
             var id = $(v).attr('id');
             $(v).attr('id', tableName + '_' + id);
+            $('#' + tableName + ' tbody td:nth-child(' + (i+1) + ')').attr('data-smp-content', $(v).text()) ;
         });
 
         /* Init counter */
@@ -161,7 +163,7 @@
                     var size = data.length;
 
                     $table.find('tbody').html(
-                        renderTable(start, size, end, data)
+                        renderTable(start, size, end, data, tableName)
                     );
 
                     $('#' + tableName + '--counter').text(
@@ -186,7 +188,7 @@
                     var end = start + max;
 
                     $table.find('tbody').html(
-                        renderTable(start, size, end, data)
+                        renderTable(start, size, end, data, tableName)
                     );
 
                     $('#' + tableName + '--counter').text(
@@ -208,7 +210,7 @@
                     var size = data.length;
 
                     $table.find('tbody').html(
-                        renderTable(start, size, end, data)
+                        renderTable(start, size, end, data, tableName)
                     );
 
                     $('#' + tableName + '--counter').text(
@@ -231,7 +233,7 @@
                     var size = data.length;
 
                     $table.find('tbody').html(
-                        renderTable(start, size, end, data)
+                        renderTable(start, size, end, data, tableName)
                     );
 
                     $('#' + tableName + '--counter').text(
@@ -256,7 +258,7 @@
             index = 0;
             data.sort(sortFns(colName)[direction]);
             $table.find('tbody').html(
-                renderTable(0, data.length, max, data)
+                renderTable(0, data.length, max, data, tableName)
             );
             $(this).addClass(direction);
             $('#' + tableName + '--prev').addClass('smpSortableTable--disabled');
