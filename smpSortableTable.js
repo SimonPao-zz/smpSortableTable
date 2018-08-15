@@ -1,56 +1,80 @@
 (function($){
-    $.fn.smpSortableTable = function (data, max, lang) {
-      // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
-      // If lang is not defined, then lang is en
-      lang = lang || "en" ;
-      lang = lang.toLowerCase() ;
-      var local = function(word) {
-          var dict = {
-              "en": {
-                  "of": "Of",
-                  "next": "Next",
-                  "previous": "Previous",
-                  "first": "First",
-                  "last": "Last",
-                  "nothing": "Nothing to Display"
-              },
-              "es": {
-                  "of": "De",
-                  "next": "Siguiente",
-                  "previous": "Anterior",
-                  "first": "Primero",
-                  "last": "&Uacute;ltimo",
-                  "nothing": "Nada que mostrar"
-              },
-              "pt": {
-                  "of": "Do",
-                  "next": "Pr&oacute;ximo",
-                  "previous": "Anterior",
-                  "first": "Primeiro",
-                  "last": "&Uacute;ltimo",
-                  "nothing": "Nada a exibir"
-              },
-              "symbols": {
-                  "of": "/",
-                  "next": "&#9654;",
-                  "previous": "&#9664;",
-                  "first": "|&#9664;",
-                  "last": "&#9654;|",
-                  "nothing": "&#8709;"
-              }
-          };
-          dict["en-us"] = dict["en-uk"] = dict["en"] ;
-          dict["es-es"] = dict["es"] ;
-          dict["pt-br"] = dict["pt-pt"] = dict["pt"] ;
+    $.fn.smpSortableTable = function (data, max, lang, userSettings) {
+        // Default settings
+        // I'll use this for any future settings so as to not clutter up the function call
+        var settings = {
+            responsive:true,
+            tr: {
+                class:""
+            },
+            td: {
+                class:""
+            }
+        } ;
+        // Merge user settings with the settings object
+        if(typeof userSettings === 'object') {
+            for (var key in userSettings) {
+                if(userSettings.hasOwnProperty(key)) {
+                    settings[key] = userSettings[key];
+                }
+            }
+        }
 
-          // If lang is defined but not included in dict, then lang is en
-          lang=( typeof dict[lang] === 'undefined' ) ? "en" : lang ;
+        // Victor Rivas <vrivas@ujaen.es>: 30-jul-2018
+        // If lang is not defined, then lang is en
+        lang = lang || "en" ;
+        lang = lang.toLowerCase() ;
+        var local = function(word) {
+            var dict = {
+                "en": {
+                    "of": "Of",
+                    "next": "Next",
+                    "previous": "Previous",
+                    "first": "First",
+                    "last": "Last",
+                    "nothing": "Nothing to Display",
+                    "sort" : "Sort table by:"
+                },
+                "es": {
+                    "of": "De",
+                    "next": "Siguiente",
+                    "previous": "Anterior",
+                    "first": "Primero",
+                    "last": "&Uacute;ltimo",
+                    "nothing": "Nada que mostrar",
+                    "sort" : "Ordenar tabla por:"
+                },
+                "pt": {
+                    "of": "Do",
+                    "next": "Pr&oacute;ximo",
+                    "previous": "Anterior",
+                    "first": "Primeiro",
+                    "last": "&Uacute;ltimo",
+                    "nothing": "Nada a exibir",
+                    "sort" : "Ordenar tabela por:"
+                },
+                "symbols": {
+                    "of": "/",
+                    "next": "&#9654;",
+                    "previous": "&#9664;",
+                    "first": "|&#9664;",
+                    "last": "&#9654;|",
+                    "nothing": "&#8709;",
+                    "sort" : "▼/▲"
+                }
+            };
+            dict["en-us"] = dict["en-uk"] = dict["en"] ;
+            dict["es-es"] = dict["es"] ;
+            dict["pt-br"] = dict["pt-pt"] = dict["pt"] ;
 
-          // If the word is not in our little dictionary
-          return ( typeof dict[lang][word.toLowerCase()] === 'undefined' ) ? "unknown" : dict[lang][word.toLowerCase()] ;
+            // If lang is defined but not included in dict, then lang is en
+            lang=( typeof dict[lang] === 'undefined' ) ? "en" : lang ;
+
+            // If the word is not in our little dictionary
+            return ( typeof dict[lang][word.toLowerCase()] === 'undefined' ) ? "unknown" : dict[lang][word.toLowerCase()] ;
         } ;
 
-
+        // Function which creates data structure if HTML table data used
         var generateData = function($table) {
             var keys = [] ;
             var data = [] ;
@@ -72,17 +96,23 @@
             return data ;
         };
 
-
+        // Re-render the table data whenever a change is made
         var renderTable = function (start, end, max, data, tableName) {
             var returnHTML = '';
             for (var i = start; i < Math.min(end, max); i++) {
-                returnHTML += '<tr>';
+                returnHTML += '<tr class="' + settings.tr.class + '">';
                 for (var key in data[i]) {
                     if(data[i].hasOwnProperty(key)) {
                         var colText = $('#' + tableName + '_' + key).text() ;
                         if (typeof data[i][key] !== 'object')
-                            returnHTML += '<td data-smp-content="' + colText + '">' + (data[i][key] ? data[i][key] : 'N/A') + '</td>';
-                        else returnHTML += '<td data-smp-content="' + colText + '">' + (data[i][key].text ? data[i][key].text : 'N/A') + '</td>';
+                            returnHTML +=
+                                '<td data-smp-content="' + colText + '" class="' + settings.td.class + '">' +
+                                    (data[i][key] ? data[i][key] : 'N/A') +
+                                '</td>';
+                        else returnHTML +=
+                                '<td data-smp-content="' + colText + '" class="' + settings.td.class + '">' +
+                                    (data[i][key].text ? data[i][key].text : 'N/A') +
+                                '</td>';
                     }
                 }
                 returnHTML += '</tr>';
@@ -90,6 +120,7 @@
             return returnHTML;
         };
 
+        // The functions that will sort the table when a column header is clicked
         var sortFns = function (key) {
             return {
                 desc: function (a, b) {
@@ -115,26 +146,32 @@
         max = max < 1 ? 10 : (max || 10) ;
         data = !data ? generateData($table) : data ;
         $table.addClass('smpSortableTable--processed') ;
+        // Make table responsive if user does not explicitly disable it
+        if(settings.responsive) {
+            $table.addClass('responsive') ;
+        }
+        $table.find('thead').attr('data-smp-content', local("sort")) ;
         $table.find('tbody').html(renderTable(0, data.length, max, data, tableName));
         $table.find('th:not(.smp-not-sortable)').addClass('smpSortableTable--sortable ' + tableName + '--sortable');
+        // Insert navigation buttons
         $table.after(
-            '<div class="smpSortableTable--nav" id="' + tableName + '--nav">'
-            +'<a class="smpSortableTable--nav-links smpSortableTable--first smpSortableTable--disabled" id="' + tableName + '--first">'
-            + local("first")
-            +'</a>'
-            +'<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' + tableName + '--prev">'
-            + local("previous")
-            +'</a>'
-            +'<span class="smpSortableTable--counter" id="' + tableName + '--counter"></span>'
-            +'<a class="smpSortableTable--nav-links smpSortableTable--last" id="' + tableName + '--last">'
-            + local("last")+'</a>'
-            + '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">'
-            + local("next")+'</a>'
-            +'</div>'
+            '<div class="smpSortableTable--nav" id="' + tableName + '--nav">' +
+            '<a class="smpSortableTable--nav-links smpSortableTable--first smpSortableTable--disabled" id="' +
+            tableName + '--first">' + local("first") + '</a>' +
+            '<a class="smpSortableTable--nav-links smpSortableTable--prev smpSortableTable--disabled" id="' +
+            tableName + '--prev">' + local("previous") + '</a>' +
+            '<span class="smpSortableTable--counter" id="' + tableName + '--counter"></span>' +
+            '<a class="smpSortableTable--nav-links smpSortableTable--last" id="' + tableName + '--last">' +
+            local("last") + '</a>' +
+            '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">' +
+            local("next")+'</a>' + '</div>'
         );
         $.each($table.find('th'), function (i, v) {
+            // Assign tableName_id ids to all th tags
             var id = $(v).attr('id');
             $(v).attr('id', tableName + '_' + id);
+            // Set data-smp-content attribute of all cells of this column to th text
+            //  for table responsiveness on smaller screens
             $('#' + tableName + ' tbody td:nth-child(' + (i+1) + ')').attr('data-smp-content', $(v).text()) ;
         });
 

@@ -25,6 +25,16 @@
             text-align: left;
         }
 
+        .hidden-lg {
+            display:none;
+        }
+
+        @media (max-width: 768px) {
+            .hidden-lg {
+                display:block;
+            }
+        }
+
     </style>
 
     <script type="text/javascript">
@@ -285,6 +295,7 @@
         $(document).ready(function () {
             let $inp_rows = $('#inp_rows') ;
             let $inp_lang = $('#inp_lang') ;
+            let $inp_resp = $('#inp_resp') ;
             let params = window.location.search.substring(1).split('&') ;
             for(let key in params) {
                 let tmp = params[key].split('=') ;
@@ -292,25 +303,29 @@
             }
             const initRows = params.rows ? parseInt(params.rows) : 10 ;
             const initLang = params.lang ? params.lang : "en" ;
+            const initResp = !(params.resp === 'false') ;
             $inp_rows.val(initRows) ;
             $inp_lang.val(initLang) ;
+            $inp_resp.prop('checked', initResp) ;
 
             if(params.data === 'ds') {
-                $('#people-table').smpSortableTable(people.data, initRows, initLang );
+                $('#people-table').smpSortableTable(people.data, initRows, initLang, {responsive: initResp} );
             } else {
-                $('#people-table').smpSortableTable(false, initRows, initLang);
+                $('#people-table').smpSortableTable(false, initRows, initLang, {responsive: initResp} );
             }
 
             $('#btn_ds').click(function(){
                 let rows = !!$inp_rows.val() ? $inp_rows.val() : 10 ;
                 let lang = !!$inp_lang.val() ? $inp_lang.val() : "en" ;
-                window.location.search = '?data=ds&rows=' + rows + '&lang=' + lang ;
+                let resp = $inp_resp.prop('checked') ;
+                window.location.search = '?data=ds&rows=' + rows + '&lang=' + lang + '&resp=' + resp ;
             }) ;
 
             $('#btn_td').click(function(){
                 let rows = !!$inp_rows.val() ? $inp_rows.val() : 10 ;
                 let lang = !!$inp_lang.val() ? $inp_lang.val() : "en" ;
-                window.location.search = '?data=td&rows=' + rows + '&lang=' + lang ;
+                let resp = $inp_resp.prop('checked') ;
+                window.location.search = '?data=td&rows=' + rows + '&lang=' + lang + '&resp=' + resp ;
             }) ;
         });
     </script>
@@ -634,6 +649,7 @@
 <br/>
 <label for="inp_rows">Number of Rows</label>
 <input id="inp_rows" type="number" value="15"/>
+<span class="hidden-lg"><br/><br/></span>
 <label for="inp_lang">Select Language</label>
 <select id="inp_lang">
     <option value="en">English</option>
@@ -641,7 +657,12 @@
     <option value="pt">Portugu&ecirc;s</option>
     <option value="symbols">Symbols</option>
 </select>
+<span class="hidden-lg"><br/><br/></span>
+<label for="inp_resp">Responsive</label>
+<input id="inp_resp" type="checkbox" checked />
+<span class="hidden-lg"><br/><br/></span>
 <button id="btn_ds">Render Using Data Structure</button>
+<span class="hidden-lg"><br/><br/></span>
 <button id="btn_td">Render Using Table Data</button>
 
 </body>
