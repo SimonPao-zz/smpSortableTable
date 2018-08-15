@@ -9,7 +9,9 @@ The second parameter is the maximum number of rows to display. If omitted, the m
 
 Localization may be set using an optional third parameter. Currently, English (`"en"`), Spanish (`"es"`), Portuguese (`"pt"`), and Symbols (`"symbols"`) are supported. (Thanks [V&iacute;ctor](https://github.com/vrivas))
 
-The table is responsive for screens narrower than 768px. At this width, table cells will collapse down onto individual lines, prefixed by the column header text. Column headers will display as buttons at the top of the table.
+The table is optionally responsive for screens narrower than 768px. At this width, table cells will collapse down onto individual lines, prefixed by the column header text. Column headers will display as buttons at the top of the table. At 450px, the navigation buttons at the bottom of the table will also collapse onto their own lines.
+
+Responsiveness, as well as other options, can be set in the optional `settings` parameter.
 ## Using a Data Structure
 
 ```
@@ -36,8 +38,17 @@ The table is responsive for screens narrower than 768px. At this width, table ce
     
     let rows = 10 ;
     let language = "en" ;
+    let settings = {
+        responsive:true,
+        tr: {
+            class:"some-class"
+        },
+        td: {
+            class:"some-other-class"
+        }
+    } ;
     
-    $('#people-table').smpSortableTable(people, rows, language);
+    $('#people-table').smpSortableTable(people, rows, language, settings);
 </script>
 
 ...
@@ -61,8 +72,17 @@ The table is responsive for screens narrower than 768px. At this width, table ce
 <script type="text/javascript">
     let rows = 10 ;
     let language = "en" ;
+    let settings = {
+        responsive:true,
+        tr: {
+            class:"some-class"
+        },
+        td: {
+            class:"some-other-class"
+        }
+    } ;
     
-    $('#people-table').smpSortableTable(false, rows, language);
+    $('#people-table').smpSortableTable(false, rows, language, settings);
 </script>
 
 ...
