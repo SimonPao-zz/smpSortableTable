@@ -143,6 +143,19 @@
         var $table = $(this);
         var tableName = $table.attr('id');
         var index = 0;
+
+        // Assign th IDs
+        $.each($table.find('th'), function (i, v) {
+            var id = $(v).attr('id');
+            // Don't require that th tags have IDs
+            if(!id) id = 'th-' + i ;
+            // Assign tableName_id ids to all th tags
+            $(v).attr('id', tableName + '_' + id);
+            // Set data-smp-content attribute of all cells of this column to th text
+            //  for table responsiveness on smaller screens
+            $('#' + tableName + ' tbody td:nth-child(' + (i+1) + ')').attr('data-smp-content', $(v).text()) ;
+        });
+
         max = max < 1 ? 10 : (max || 10) ;
         data = !data ? generateData($table) : data ;
         $table.addClass('smpSortableTable--processed') ;
@@ -166,14 +179,6 @@
             '<a class="smpSortableTable--nav-links smpSortableTable--next" id="' + tableName + '--next">' +
             local("next")+'</a>' + '</div>'
         );
-        $.each($table.find('th'), function (i, v) {
-            // Assign tableName_id ids to all th tags
-            var id = $(v).attr('id');
-            $(v).attr('id', tableName + '_' + id);
-            // Set data-smp-content attribute of all cells of this column to th text
-            //  for table responsiveness on smaller screens
-            $('#' + tableName + ' tbody td:nth-child(' + (i+1) + ')').attr('data-smp-content', $(v).text()) ;
-        });
 
         /* Init counter */
         if (data.length) {
