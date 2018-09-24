@@ -88,7 +88,7 @@
                 $.each(keys, function(i,v2){
                     var sort = $($(v).children('td')[i]).data('smp-sort');
                     if(!sort) $tmp[v2] = $(v).children('td')[i].innerHTML;
-                    else $tmp[v2] = { "text": $(v).children('td')[i].innerText, "sort": sort } ;
+                    else $tmp[v2] = { "text": $(v).children('td')[i].innerHTML, "sort": sort } ;
                 }) ;
                 data.push($tmp) ;
             }) ;
