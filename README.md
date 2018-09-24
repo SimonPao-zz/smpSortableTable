@@ -33,25 +33,26 @@ Responsiveness, as well as other options, can be set in the optional `settings` 
             "sort": 475176129
         }
     }, { 
-        ... 
+        // ... 
     }] ;
     
     let rows = 10 ;
     let language = "en" ;
     let settings = {
-        responsive:true,
+        responsive:true, // Make table responsive at 768px (default: true)
+        emptyCell:"N/A", // Text to display in empty cells (default: "N/A")
         tr: {
-            class:"some-class"
+            class:"some-class" // Additional row class(es)
         },
         td: {
-            class:"some-other-class"
+            class:"some-other-class" // Additioanl cell class(es)
         }
     } ;
     
     $('#people-table').smpSortableTable(people, rows, language, settings);
 </script>
 
-...
+<!-- ... -->
 
 <table id="people-table">
     <thead>
@@ -73,19 +74,20 @@ Responsiveness, as well as other options, can be set in the optional `settings` 
     let rows = 10 ;
     let language = "en" ;
     let settings = {
-        responsive:true,
+        responsive:true, // Make table responsive at 768px (default: true)
+        emptyCell:"N/A", // Text to display in empty cells (default: "N/A")
         tr: {
-            class:"some-class"
+            class:"some-class" // Additional row class(es)
         },
         td: {
-            class:"some-other-class"
+            class:"some-other-class" // Additioanl cell class(es)
         }
     } ;
     
     $('#people-table').smpSortableTable(false, rows, language, settings);
 </script>
 
-...
+<!-- ... -->
 
 <table id="people-table">
     <thead>
@@ -110,7 +112,7 @@ Responsiveness, as well as other options, can be set in the optional `settings` 
             <td data-smp-sort="475176129">01/21/1985</td>
         </tr>
         <tr>
-            ...
+            <!-- ... -->
         </tr>
     </tbody>
 </table>

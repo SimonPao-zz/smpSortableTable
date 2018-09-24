@@ -4,6 +4,7 @@
         // I'll use this for any future settings so as to not clutter up the function call
         var settings = {
             responsive:true,
+            emptyCell:"N/A",
             tr: {
                 class:""
             },
@@ -87,7 +88,7 @@
                 var $tmp = {} ;
                 $.each(keys, function(i,v2){
                     var sort = $($(v).children('td')[i]).data('smp-sort');
-                    if(!sort) $tmp[v2] = $(v).children('td')[i].innerHTML;
+                    if(typeof sort === "undefined") $tmp[v2] = $(v).children('td')[i].innerHTML;
                     else $tmp[v2] = { "text": $(v).children('td')[i].innerHTML, "sort": sort } ;
                 }) ;
                 data.push($tmp) ;
@@ -107,11 +108,11 @@
                         if (typeof data[i][key] !== 'object')
                             returnHTML +=
                                 '<td data-smp-content="' + colText + '" class="' + settings.td.class + '">' +
-                                    (data[i][key] ? data[i][key] : 'N/A') +
+                                    (data[i][key] !== '' ? data[i][key] : settings.emptyCell) +
                                 '</td>';
                         else returnHTML +=
                                 '<td data-smp-content="' + colText + '" class="' + settings.td.class + '">' +
-                                    (data[i][key].text ? data[i][key].text : 'N/A') +
+                                    (data[i][key].text !== '' ? data[i][key].text : settings.emptyCell) +
                                 '</td>';
                     }
                 }
